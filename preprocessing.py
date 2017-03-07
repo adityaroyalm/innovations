@@ -6,6 +6,7 @@ This is a temporary script file.
 """
 import numpy as np
 import pandas as pd
+import scikit-learn
 import csv
 import numpy as np
 from matplotlib import pyplot as plt
@@ -30,26 +31,27 @@ for x in movie_obj.columns:
 ####################standardization#################################
 x_std=StandardScaler()
 y_trans=x_std.fit_transform(movie_obj.values)
-y_trans=pd.DataFrame(y)
+y_trans=pd.DataFrame(y_trans)
 Column_names=list(movie_obj.columns)
 y_trans.columns=Column_names
 #y.iloc[:,0].plot()
-correlation= y.corr()
+correlation= y_trans.corr()
 ranked=correlation.rank(ascending=True)
 k=correlation[(correlation<-0.4) | (correlation>0.4) & (correlation!=1)]
 k.fillna(0,inplace=True)
 k=k.ix[k.sum(axis=0)!=0,k.sum(axis=1)!=0]
 #k[]
-#y=pd.melt(y,id_vars=['duration'])
+plt.scatter(list(y_trans.index.values),y_trans.ix[:,0])
+#y=pd.melt(y_trans,id_vars=['duration'])
 #print ggplot(aes(x='duration',y='value'),data=y)+geom_line()+facet_wrap('variable')
 #########principal component analyss###
-pca=PCA(n_components=9)
-d=pca.fit_transform(y_trans)
+#pca=PCA(n_components=9)
+#d=pca.fit_transform(y_trans)
 ####kmeans##########
-k=KMeans(n_clusters=3)
-y_clustered=k.fit_predict(y_trans)
-match={0:'r',1:'b',2:'g'}
-color=[match[l] for l in y_clustered]
-plt.figure(figsize = (7,7))
-plt.scatter(d[:,0],d[:,2],c=color,alpha=0.5)
-plt.show()
+#k=KMeans(n_clusters=3)
+#y_clustered=k.fit_predict(y_trans)
+#match={0:'r',1:'b',2:'g'}
+#color=[match[l] for l in y_clustered]
+#plt.figure(figsize = (7,7))
+#plt.scatter(d[:,0],d[:,2],c=color,alpha=0.5)
+#plt.show()
